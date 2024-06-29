@@ -12,9 +12,13 @@ endif ()
 
 set(SOURCES ${CMAKE_SOURCE_DIR}/src/main.cpp
         ${CMAKE_SOURCE_DIR}/src/game/game.cpp
-        ${CMAKE_SOURCE_DIR}/src/logger/logger.cpp)
+        ${CMAKE_SOURCE_DIR}/src/logger/logger.cpp
+        src/ecs/ecs.cpp)
 set(HEADERS ${CMAKE_SOURCE_DIR}/src/game/game.h
-        ${CMAKE_SOURCE_DIR}/src/logger/logger.h)
+        ${CMAKE_SOURCE_DIR}/src/logger/logger.h
+        src/components/transform-component.h
+        src/systems/movement-system.h
+        src/ecs/ecs.h)
 
 find_package(sdl2 REQUIRED)
 find_package(sdl2_image REQUIRED)

@@ -9,6 +9,7 @@
 
 #include "game.h"
 #include "../logger/logger.h"
+#include "../ecs/ecs.h"
 
 game::game() {
   isRunning = false;
@@ -77,12 +78,7 @@ void game::processInput() {
   }
 }
 
-glm::vec2 playerPosition;
-glm::vec2 playerVelocity;
-
 void game::setup() {
-  playerPosition = glm::vec2(10.0, 20.0);
-  playerVelocity = glm::vec2(10.0, 5.0);
 }
 
 void game::update() {
@@ -98,24 +94,11 @@ void game::update() {
     1000.0f};
 
   millisecondsPreviousFrame = SDL_GetTicks64();
-
-  playerPosition.x += playerVelocity.x * deltaTime;
-  playerPosition.y += playerVelocity.y * deltaTime;
 }
 
 void game::render() const {
   SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
   SDL_RenderClear(renderer);
-
-  SDL_Surface* surface{IMG_Load("../assets/images/tank-tiger-right.png")};
-  SDL_Texture* texture{SDL_CreateTextureFromSurface(renderer, surface)};
-  SDL_FreeSurface(surface);
-
-  const SDL_Rect destinationRectangle{static_cast<int>(playerPosition.x),
-                                      static_cast<int>(playerPosition.y),
-                                      32, 32};
-  SDL_RenderCopy(renderer, texture, nullptr, &destinationRectangle);
-  SDL_DestroyTexture(texture);
 
   SDL_RenderPresent(renderer);
 }
