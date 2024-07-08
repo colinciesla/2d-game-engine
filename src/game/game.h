@@ -5,6 +5,9 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <bits/unique_ptr.h>
+
+#include "ecs/ecs.h"
 
 constexpr int FPS{120};
 constexpr int MILLISECONDS_PER_FRAME{1000 / FPS};
@@ -15,6 +18,7 @@ class game
   uint64_t millisecondsPreviousFrame{0};
   SDL_Window *window{};
   SDL_Renderer *renderer{};
+  std::unique_ptr<ecs::registry> registry;
 
 public:
   int windowWidth{};

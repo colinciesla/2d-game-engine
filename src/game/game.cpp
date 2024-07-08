@@ -4,20 +4,22 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
 
 #include "game.h"
 #include "../logger/logger.h"
+#include "components/rigid-body-component.h"
+#include "components/transform-component.h"
 #include "../ecs/ecs.h"
 
 game::game() {
   isRunning = false;
-  logger::log("Game constructor called!");
+  registry = std::make_unique<ecs::registry>();
+  logger::log("Game created!");
 }
 
 game::~game() {
-  logger::log("Game destructor called!");
+  logger::log("Game destroyed!");
 }
 
 void game::initialize() {
@@ -79,6 +81,9 @@ void game::processInput() {
 }
 
 void game::setup() {
+  const ecs::entity tank = registry->addEntity();
+
+  registry->addComponent<transformComponent>(tank, glm::vec2(10.0f, 30.0f), glm::vec2(1.0f, 1.0f), 0.0);
 }
 
 void game::update() {
@@ -89,17 +94,12 @@ void game::update() {
     SDL_Delay(timeToWait);
   }
 
-  const float deltaTime{
-    (static_cast<float>(SDL_GetTicks64()) - static_cast<float>(millisecondsPreviousFrame)) /
-    1000.0f};
-
   millisecondsPreviousFrame = SDL_GetTicks64();
 }
 
 void game::render() const {
   SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
   SDL_RenderClear(renderer);
-
   SDL_RenderPresent(renderer);
 }
 
